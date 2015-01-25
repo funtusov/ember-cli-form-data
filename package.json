@@ -1,7 +1,7 @@
 {
-  "name": "ember-form-data",
+  "name": "ember-cli-form-data",
   "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Ember-CLI addon that adds FormData file upload to the RESTAdapter",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -11,7 +11,7 @@
     "build": "ember build",
     "test": "ember test"
   },
-  "repository": "",
+  "repository": "https://github.com/funtusov/ember-cli-form-data",
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -33,7 +33,8 @@
     "glob": "^4.0.5"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "FormData"
   ],
   "ember-addon": {
     "configPath": "tests/dummy/config"
