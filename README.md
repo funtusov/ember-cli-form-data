@@ -1,25 +1,43 @@
-# Ember-form-data
+# ember-cli-form-data
 
-This README outlines the details of collaborating on this Ember addon.
+This Ember-CLI addon adds file uploads through FormData to the Ember Data
 
-## Installation
+### Usage
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+Add a file field on the model
 
-## Running
+```js
+// models/post.js
 
-* `ember server`
-* Visit your app at http://localhost:4200.
+export default DS.Model.extend({
+  attachment: DS.attr('file'),
 
-## Running Tests
+  // Other attributes
+});
+```
 
-* `ember test`
-* `ember test --server`
+Add the FormDataMixin to your post adapter. Run ``ember g adapter post`` if you don't have the adapter.
 
-## Building
+```js
+// adapters/post.js
 
-* `ember build`
+import FormDataAdapterMixin from 'ember-cli-form-data/mixins/form-data-adapter';
 
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+export default ApplicationAdapter.extend(FormDataAdapterMixin, {
+  // Adapter code
+});
+```
+
+Then you can use an ``<input type='file' id='file-field'/>`` to send the attachment: 
+
+```js
+var file = document.getElementById('file-field').files[0];
+model.set('attachment', file);
+model.save();
+```
+
+This will send the ``attachment`` and all other attributes as a FormData object.
+
+### Thanks
+
+This addon was inspired by Matt Beedle's blog post http://blog.mattbeedle.name/posts/file-uploads-in-ember-data/
