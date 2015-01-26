@@ -2,6 +2,12 @@
 
 This Ember-CLI addon adds file uploads through FormData to the Ember Data
 
+### Install
+
+```
+npm install ember-cli-form-data --save-dev
+```
+
 ### Usage
 
 Add a file field on the model
@@ -11,8 +17,7 @@ Add a file field on the model
 
 export default DS.Model.extend({
   attachment: DS.attr('file'),
-
-  // Other attributes
+  ...
 });
 ```
 
