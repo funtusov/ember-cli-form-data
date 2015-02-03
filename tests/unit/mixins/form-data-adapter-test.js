@@ -18,7 +18,7 @@ test('Default FormData Types', function() {
   deepEqual(adapter.get('formDataTypes'), ['POST', 'PUT', 'PATCH']);
 });
 
-test('#_setFormDataFor', function() {
+test('#ajaxOptions', function() {
   window.FormData = function() {
     this.data = [];
     this.append = function(key, value) {
@@ -33,29 +33,16 @@ test('#_setFormDataFor', function() {
   testFormData.append('post[id]', 1);
   testFormData.append('post[title]', 'Rails is Omakase');
 
-  var hash = {};
-
-  var data = {
-    post: {
-      id: 1,
-      title: 'Rails is Omakase'
-    }      
-  };
-
-  adapter._setFormDataFor(hash, data);
-
-  deepEqual(hash.data, testFormData);
-});
-
-test('ajaxOptions', function() {
-  var url = 'http://www.example.com';
-  var hash = { 
+  var options = {
     data: {
       post: {
+        id: 1,
         title: 'Rails is Omakase'
-      }
-    } 
+      }            
+    }
   };
 
-  deepEqual(adapter.ajaxOptions(url, 'POST', hash), hash, 'return the hash');
+  var hash = adapter.ajaxOptions('/', 'POST', options);
+
+  deepEqual(hash.data, testFormData);
 });
