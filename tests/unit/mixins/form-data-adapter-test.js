@@ -1,62 +1,24 @@
 import Ember from 'ember';
-import FormDataAdapterMixin from '../../../mixins/form-data-adapter';
 
-module('FormDataAdapterMixin');
+import FormDataAdapterMixin from 'ember-cli-form-data/mixins/form-data-adapter';
 
-// Replace this with your real tests.
-test('it works', function() {
-  var FormDataAdapterObject = Ember.Object.extend(FormDataAdapterMixin);
-  var subject = FormDataAdapterObject.create();
-  ok(subject);
+var adapter;
+
+module('FormDataAdapterMixin', {
+  setup: function() {
+    adapter = Ember.Object.extend({
+      ajaxOptions: function(url, type, options) {
+        return options;
+      }
+    }, FormDataAdapterMixin).create();
+  }
 });
 
 test('Default FormData Types', function() {
-  var FormDataAdapterObject = Ember.Object.extend(FormDataAdapterMixin);
-  var subject = FormDataAdapterObject.create();
-  deepEqual(subject.get('formDataTypes'), ['POST', 'PUT', 'PATCH']);
-});
-
-test('#_setHeadersFor', function() {
-  expect(2);
-  var FormDataAdapterObject = Ember.Object.extend(FormDataAdapterMixin);
-  var subject = FormDataAdapterObject.create({
-    headers: {
-      APIKEY: '37'
-    }
-  });
-  var hash = {};
-  var xhr = {
-    setRequestHeader: function(key, value) {
-      equal(key, 'APIKEY');
-      equal(value, '37');
-    }
-  };
-
-  subject._setHeadersFor(hash);
-  hash.beforeSend(xhr);
-});
-
-test('#_setBaseFor', function() {
-  var FormDataAdapterObject = Ember.Object.extend(FormDataAdapterMixin);
-  var subject = FormDataAdapterObject.create();
-  var ctx = '37';
-  var hash = {};
-
-  
-  var result = subject._setBaseFor('http://www.example.com', 'POST', hash, ctx);
-
-  equal(hash.url, 'http://www.example.com');
-  equal(hash.type, 'POST');
-  equal(hash.dataType, 'json');
-  equal(hash.context, '37');
-  equal(hash.processData, false);
-  equal(hash.contentType, false);
-  equal(result, hash);
+  deepEqual(adapter.get('formDataTypes'), ['POST', 'PUT', 'PATCH']);
 });
 
 test('#_setFormDataFor', function() {
-  var FormDataAdapterObject = Ember.Object.extend(FormDataAdapterMixin);
-  var subject = FormDataAdapterObject.create();
   window.FormData = function() {
     this.data = [];
     this.append = function(key, value) {
@@ -66,10 +28,10 @@ test('#_setFormDataFor', function() {
     };
   };
 
-  var correctFormData = new window.FormData();
+  var testFormData = new window.FormData();
 
-  correctFormData.append('post[id]', 1);
-  correctFormData.append('post[title]', 'Rails is Omakase');
+  testFormData.append('post[id]', 1);
+  testFormData.append('post[title]', 'Rails is Omakase');
 
   var hash = {
     data: {
@@ -80,17 +42,12 @@ test('#_setFormDataFor', function() {
     }
   };
 
-  subject._setFormDataFor(hash);
+  adapter._setFormDataFor(hash);
 
-  deepEqual(hash.data, correctFormData);
+  deepEqual(hash.data, testFormData);
 });
 
 test('ajaxOptions', function() {
-  var FormDataAdapterObject = Ember.Object.extend(FormDataAdapterMixin);
-  var subject = FormDataAdapterObject.create({
-    headers: { APIKEY: '37' },
-  });
-
   var url = 'http://www.example.com';
   var hash = { 
     data: {
@@ -100,5 +57,5 @@ test('ajaxOptions', function() {
     } 
   };
 
-  deepEqual(subject.ajaxOptions(url, 'POST', hash), hash, 'return the hash');
+  deepEqual(adapter.ajaxOptions(url, 'POST', hash), hash, 'return the hash');
 });
