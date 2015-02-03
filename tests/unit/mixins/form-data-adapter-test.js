@@ -33,16 +33,16 @@ test('#_setFormDataFor', function() {
   testFormData.append('post[id]', 1);
   testFormData.append('post[title]', 'Rails is Omakase');
 
-  var hash = {
-    data: {
-      post: {
-        id: 1,
-        title: 'Rails is Omakase'
-      }      
-    }
+  var hash = {};
+
+  var data = {
+    post: {
+      id: 1,
+      title: 'Rails is Omakase'
+    }      
   };
 
-  adapter._setFormDataFor(hash);
+  adapter._setFormDataFor(hash, data);
 
   deepEqual(hash.data, testFormData);
 });

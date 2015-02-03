@@ -7,29 +7,29 @@ export default Ember.Mixin.create({
   ajaxOptions: function(url, type, options) {
     var hash = this._super.apply(this, arguments);
 
-    if (hash.data && this.formDataTypes.contains(type)) {
-      this._setFormDataFor(hash);
+    if ('data' in options && this.formDataTypes.contains(type)) {
+      this._setFormDataFor(hash, options.data);
     }
 
     return hash;
   },
 
-  _setFormDataFor: function(hash) {
+  _setFormDataFor: function(hash, data) {
     if (typeof FormData !== 'function') { return hash; }
 
     var formData = new FormData();
-    var root = Ember.keys(hash.data)[0];
+    var root = Ember.keys(data)[0];
 
-    Ember.keys(hash.data[root]).forEach(function(key) {
-      if (hash.data[root][key]) {
-        formData.append(root + "[" + key + "]", hash.data[root][key]);
+    Ember.keys(data[root]).forEach(function(key) {
+      if (data[root][key]) {
+        formData.append(root + "[" + key + "]", data[root][key]);
       }
     });
 
+    hash.data = formData;
+    hash.dataType = 'json';
     hash.processData = false;
     hash.contentType = false;
-    hash.dataType = 'json';
-    hash.data = formData;
 
     return hash;
   }
