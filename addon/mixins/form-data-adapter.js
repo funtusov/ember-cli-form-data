@@ -7,7 +7,7 @@ export default Ember.Mixin.create({
   ajaxOptions: function(url, type, options) {
     var data;
 
-    if ('data' in options) { data = options.data; }
+    if (options && 'data' in options) { data = options.data; }
 
     var hash = this._super.apply(this, arguments);
 
