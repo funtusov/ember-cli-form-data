@@ -16,7 +16,7 @@ export default Ember.Mixin.create({
       var root = Ember.keys(data)[0];
 
       Ember.keys(data[root]).forEach(function(key) {
-        if (data[root][key]) {
+        if (typeof data[root][key] !== 'undefined') {
           formData.append(root + "[" + key + "]", data[root][key]);
         }
       });

@@ -11,6 +11,15 @@ module('FormDataAdapterMixin', {
         return options;
       }
     }, FormDataAdapterMixin).create();
+
+    window.FormData = function() {
+      this.data = [];
+      this.append = function(key, value) {
+        var object = {};
+        object[key] = value;
+        this.data.push(object);
+      };
+    };
   }
 });
 
@@ -19,15 +28,6 @@ test('Default FormData Types', function() {
 });
 
 test('#ajaxOptions', function() {
-  window.FormData = function() {
-    this.data = [];
-    this.append = function(key, value) {
-      var object = {};
-      object[key] = value;
-      this.data.push(object);
-    };
-  };
-
   var testFormData = new window.FormData();
 
   testFormData.append('post[id]', 1);
@@ -38,6 +38,24 @@ test('#ajaxOptions', function() {
       post: {
         id: 1,
         title: 'Rails is Omakase'
+      }            
+    }
+  };
+
+  var hash = adapter.ajaxOptions('/', 'POST', options);
+
+  deepEqual(hash.data, testFormData);
+});
+
+test('Falsey key gets saved', function() {
+  var testFormData = new window.FormData();
+
+  testFormData.append('post[preferred]', false);
+
+  var options = {
+    data: {
+      post: {
+        preferred: false
       }            
     }
   };
