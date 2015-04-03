@@ -11,7 +11,7 @@ export default Ember.Mixin.create({
 
     var hash = this._super.apply(this, arguments);
 
-    if (typeof FormData === 'function' && data && this.formDataTypes.contains(type)) {
+    if (typeof FormData !== 'undefined' && data && this.formDataTypes.contains(type)) {
       var formData = new FormData();
       var root = Ember.keys(data)[0];
 
