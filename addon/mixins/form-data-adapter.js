@@ -13,13 +13,16 @@ export default Ember.Mixin.create({
 
     if (typeof FormData !== 'undefined' && data && this.formDataTypes.contains(type)) {
       var formData = new FormData();
-      var root = Ember.keys(data)[0];
+      var fields = this.getFormFields(data);
 
-      Ember.keys(data[root]).forEach(function(key) {
-        if (typeof data[root][key] !== 'undefined') {
-          formData.append(root + "[" + key + "]", data[root][key]);
+      Ember.keys(fields).forEach(function(key) {
+        if (typeof fields[key] !== 'undefined') {
+          formData.append(
+            this.getFormKey(key, fields[key]),
+            this.getFormValue(key, fields[key])
+          );
         }
-      });
+      }.bind(this));
 
       hash.processData = false;
       hash.contentType = false;
@@ -28,4 +31,17 @@ export default Ember.Mixin.create({
 
     return hash;
   },
+
+  getFormFields: function (data) {
+    this._root = this._root || Ember.keys(data)[0];
+    return data[this._root];
+  },
+
+  getFormKey: function (key, value) {
+    return this._root + "[" + key + "]";
+  },
+
+  getFormValue: function (key, value) {
+    return value;
+  }
 });
