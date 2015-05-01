@@ -43,6 +43,12 @@ model.save();
 
 This will send the ``attachment`` and all other attributes as a FormData object.
 
+## Customization
+
+You can override `getFormFields()` to select the fields you want to transform into FormData. The method is passed the model snapshot as unique parameter. If you want to customize the name for the key, overrides `getFormKey()` which is passed with the `key` and `value` for that key of the hash returned by `getFormFields()`. To customize the value, use `getFormValue()`.
+
+Do not abuse these customization. If you're performing huge changes in your model's representation, then you should be providing a custom serializer or maybe a different transformation for an specific field.
+
 ### Thanks
 
 This addon was inspired by Matt Beedle's blog post http://blog.mattbeedle.name/posts/file-uploads-in-ember-data/
