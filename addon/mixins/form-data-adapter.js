@@ -4,8 +4,12 @@ export default Ember.Mixin.create({
   // Overwrite to change the request types on which Form Data is sent
   formDataTypes: ['POST', 'PUT', 'PATCH'],
 
+  // Overwrite to flatten the form data by removing the root
+  disableRoot: false,
+
   ajaxOptions: function(url, type, options) {
     var data;
+    var _this = this;
 
     if (options && 'data' in options) { data = options.data; }
 
@@ -17,7 +21,11 @@ export default Ember.Mixin.create({
 
       Ember.keys(data[root]).forEach(function(key) {
         if (typeof data[root][key] !== 'undefined') {
-          formData.append(root + "[" + key + "]", data[root][key]);
+          if ( _this.get('disableRoot') ) {
+            formData.append(key, data[root][key]);
+          } else {
+            formData.append(root + "[" + key + "]", data[root][key]);
+          }
         }
       });
 

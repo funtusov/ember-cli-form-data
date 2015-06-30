@@ -38,7 +38,7 @@ test('#ajaxOptions', function() {
       post: {
         id: 1,
         title: 'Rails is Omakase'
-      }            
+      }
     }
   };
 
@@ -56,9 +56,36 @@ test('Falsey key gets saved', function() {
     data: {
       post: {
         preferred: false
-      }            
+      }
     }
   };
+
+  var hash = adapter.ajaxOptions('/', 'POST', options);
+
+  deepEqual(hash.data, testFormData);
+});
+
+test('Default disableRoot', function() {
+  deepEqual(adapter.get('disableRoot'), false);
+});
+
+test('#ajaxOptions should exclude root when disableRoot is true', function() {
+  var testFormData = new window.FormData();
+
+  // Setup expected form data; note the lack of the 'post' root (post[id])
+  testFormData.append('id', 1);
+  testFormData.append('title', 'Rails is Omakase');
+
+  var options = {
+    data: {
+      post: {
+        id: 1,
+        title: 'Rails is Omakase'
+      }
+    }
+  };
+
+  adapter.set('disableRoot', true);
 
   var hash = adapter.ajaxOptions('/', 'POST', options);
 
