@@ -43,6 +43,14 @@ model.save();
 
 This will send the ``attachment`` and all other attributes as a FormData object.
 
+
+### Flatten FormData fields
+
+Some api's desire the form data fields to not include the root object
+name. For example, the default adapter behavior would result in ``post[title]``
+in your serialized data.  If your api instead expects just ``title``,
+add ``disableRoot: true`` to remove the model name from the fields.
+
 ### Thanks
 
 This addon was inspired by Matt Beedle's blog post http://blog.mattbeedle.name/posts/file-uploads-in-ember-data/
