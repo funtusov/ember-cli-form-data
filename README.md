@@ -5,7 +5,7 @@ This Ember-CLI addon adds file uploads through FormData to the Ember Data
 ### Install
 
 ```
-npm install ember-cli-form-data --save-dev
+ember install ember-cli-form-data
 ```
 
 ### Usage
