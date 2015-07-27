@@ -23,11 +23,11 @@ module('FormDataAdapterMixin', {
   }
 });
 
-test('Default FormData Types', function() {
-  deepEqual(adapter.get('formDataTypes'), ['POST', 'PUT', 'PATCH']);
+test('Default FormData Types', function(assert) {
+  assert.deepEqual(adapter.get('formDataTypes'), ['POST', 'PUT', 'PATCH']);
 });
 
-test('#ajaxOptions', function() {
+test('#ajaxOptions', function(assert) {
   var testFormData = new window.FormData();
 
   testFormData.append('post[id]', 1);
@@ -44,10 +44,30 @@ test('#ajaxOptions', function() {
 
   var hash = adapter.ajaxOptions('/', 'POST', options);
 
-  deepEqual(hash.data, testFormData);
+  assert.deepEqual(hash.data, testFormData);
 });
 
-test('Falsey key gets saved', function() {
+test("Don't modify the hash for requests outside formDataTypes", function(assert) {
+  var options = {
+    data: {
+      post: {
+        id: 1,
+        title: 'Rails is Omakase'
+      }
+    }
+  };
+
+  var hash = adapter.ajaxOptions('/', 'GET', options);
+
+  assert.deepEqual(hash.data, {
+    post: {
+      id: 1,
+      title: 'Rails is Omakase'
+    }
+  });
+});
+
+test('Falsey key gets saved', function(assert) {
   var testFormData = new window.FormData();
 
   testFormData.append('post[preferred]', false);
@@ -62,14 +82,14 @@ test('Falsey key gets saved', function() {
 
   var hash = adapter.ajaxOptions('/', 'POST', options);
 
-  deepEqual(hash.data, testFormData);
+  assert.deepEqual(hash.data, testFormData);
 });
 
-test('Default disableRoot', function() {
-  deepEqual(adapter.get('disableRoot'), false);
+test('Default disableRoot', function(assert) {
+  assert.deepEqual(adapter.get('disableRoot'), false);
 });
 
-test('#ajaxOptions should exclude root when disableRoot is true', function() {
+test('#ajaxOptions should exclude root when disableRoot is true', function(assert) {
   var testFormData = new window.FormData();
 
   // Setup expected form data; note the lack of the 'post' root (post[id])
@@ -89,5 +109,5 @@ test('#ajaxOptions should exclude root when disableRoot is true', function() {
 
   var hash = adapter.ajaxOptions('/', 'POST', options);
 
-  deepEqual(hash.data, testFormData);
+  assert.deepEqual(hash.data, testFormData);
 });

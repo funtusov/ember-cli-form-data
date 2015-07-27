@@ -9,31 +9,34 @@ export default Ember.Mixin.create({
 
   ajaxOptions: function(url, type, options) {
     var data;
-    var _this = this;
 
     if (options && 'data' in options) { data = options.data; }
 
     var hash = this._super.apply(this, arguments);
 
-    if (typeof FormData !== 'undefined' && data && this.formDataTypes.contains(type)) {
-      var formData = new FormData();
-      var root = Ember.keys(data)[0];
-
-      Ember.keys(data[root]).forEach(function(key) {
-        if (typeof data[root][key] !== 'undefined') {
-          if ( _this.get('disableRoot') ) {
-            formData.append(key, data[root][key]);
-          } else {
-            formData.append(root + "[" + key + "]", data[root][key]);
-          }
-        }
-      });
-
+    if (typeof FormData !== 'undefined' && data && this.formDataTypes.indexOf(type) >= 0) {
       hash.processData = false;
       hash.contentType = false;
-      hash.data = formData;
+      hash.data = this._getFormData(data);
     }
 
     return hash;
   },
+
+  _getFormData: function(data) {
+    var formData = new FormData();
+    var root = Object.keys(data)[0];
+
+    Object.keys(data[root]).forEach(function(key) {
+      if (typeof data[root][key] !== 'undefined') {
+        if (this.get('disableRoot') ) {
+          formData.append(key, data[root][key]);
+        } else {
+          formData.append(root + "[" + key + "]", data[root][key]);
+        }
+      }
+    }, this);
+
+    return formData;
+  }
 });
