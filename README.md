@@ -51,6 +51,10 @@ name. For example, the default adapter behavior would result in ``post[title]``
 in your serialized data.  If your api instead expects just ``title``,
 add ``disableRoot: true`` to remove the model name from the fields.
 
+### Other Resources
+
+* [EmberScreencasts video on using ember-cli-form-data](https://www.emberscreencasts.com/posts/48-upload-a-file-as-part-of-a-form)
+
 ### Thanks
 
 This addon was inspired by Matt Beedle's blog post http://blog.mattbeedle.name/posts/file-uploads-in-ember-data/
