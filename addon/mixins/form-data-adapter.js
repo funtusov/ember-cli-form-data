@@ -28,7 +28,7 @@ export default Ember.Mixin.create({
     var root = Object.keys(data)[0];
 
     Object.keys(data[root]).forEach(function(key) {
-      if (typeof data[root][key] !== 'undefined') {
+      if (typeof data[root][key] !== 'undefined' && data[root][key] !== null) {
         if (this.get('disableRoot') ) {
           formData.append(key, data[root][key]);
         } else {
