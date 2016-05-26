@@ -85,6 +85,24 @@ test('Falsey key gets saved', function(assert) {
   assert.deepEqual(hash.data, testFormData);
 });
 
+test('Null key as empty string', function(assert) {
+  var testFormData = new window.FormData();
+
+  testFormData.append('post[title]', '');
+
+  var options = {
+    data: {
+      post: {
+        title: null
+      }
+    }
+  };
+
+  var hash = adapter.ajaxOptions('/', 'POST', options);
+
+  assert.deepEqual(hash.data, testFormData);
+});
+
 test('Default disableRoot', function(assert) {
   assert.deepEqual(adapter.get('disableRoot'), false);
 });
