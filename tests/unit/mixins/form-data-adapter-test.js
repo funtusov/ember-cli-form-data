@@ -84,8 +84,6 @@ test('Handle nested objects', function(assert) {
   assert.deepEqual(hash.data, testFormData);
 });
 
-
-
 test("Don't modify the hash for requests outside formDataTypes", function(assert) {
   var options = {
     data: {
