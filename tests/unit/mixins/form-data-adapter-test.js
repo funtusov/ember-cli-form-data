@@ -48,6 +48,44 @@ test('#ajaxOptions', function(assert) {
   assert.deepEqual(hash.data, testFormData);
 });
 
+test('Handle nested objects', function(assert) {
+  var testFormData = new window.FormData();
+
+  testFormData.append('post[id]', 1);
+  testFormData.append('post[title]', 'Rails is Omakase');
+  testFormData.append('post[author][email]', 'john.doe@doeness');
+  testFormData.append('post[author][userData][mainName]', 'John Doe');
+  testFormData.append('post[author][userData][middleName]', '');
+  testFormData.append('post[author][userData][extraNames][]', 'Johnnie Doe');
+  testFormData.append('post[author][userData][extraNames][]', 'Johnny Doe');
+
+  var options = {
+    data: {
+      post: {
+        id: 1,
+        title: 'Rails is Omakase',
+        author: {
+          email: 'john.doe@doeness',
+          userData: {
+            mainName: 'John Doe',
+            middleName: null,
+            extraNames: [
+              'Johnnie Doe',
+              'Johnny Doe',
+            ],
+          },
+        },
+      }
+    }
+  };
+
+  var hash = adapter.ajaxOptions('/', 'POST', options);
+
+  assert.deepEqual(hash.data, testFormData);
+});
+
+
+
 test("Don't modify the hash for requests outside formDataTypes", function(assert) {
   var options = {
     data: {
