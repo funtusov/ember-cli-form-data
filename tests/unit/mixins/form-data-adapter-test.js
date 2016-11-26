@@ -1,11 +1,12 @@
 import Ember from 'ember';
+import { module, test } from 'qunit';
 
 import FormDataAdapterMixin from 'ember-cli-form-data/mixins/form-data-adapter';
 
 var adapter;
 
 module('FormDataAdapterMixin', {
-  setup: function() {
+  beforeEach() {
     adapter = Ember.Object.extend({
       ajaxOptions: function(url, type, options) {
         return options;
