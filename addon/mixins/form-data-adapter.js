@@ -41,7 +41,7 @@ export default Ember.Mixin.create({
       value.forEach(function(item) {
         this._appendValue(item, `${formKey}[]`, formData);
       }, this);
-    } else if (typeof value === 'object' && value !== null) {
+    } else if (value && value.constructor === Object) {
       Object.keys(value).forEach(function(key) {
         this._appendValue(value[key], `${formKey}[${key}]`, formData);
       }, this);

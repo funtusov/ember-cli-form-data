@@ -50,10 +50,12 @@ test('#ajaxOptions', function(assert) {
 
 test('Handle nested objects', function(assert) {
   var testFormData = new window.FormData();
+  var avatarFile = new File([''], 'avatar.jpg');
 
   testFormData.append('post[id]', 1);
   testFormData.append('post[title]', 'Rails is Omakase');
   testFormData.append('post[author][email]', 'john.doe@doeness');
+  testFormData.append('post[author][userData][avatar]', avatarFile);
   testFormData.append('post[author][userData][mainName]', 'John Doe');
   testFormData.append('post[author][userData][middleName]', '');
   testFormData.append('post[author][userData][extraNames][]', 'Johnnie Doe');
@@ -67,6 +69,7 @@ test('Handle nested objects', function(assert) {
         author: {
           email: 'john.doe@doeness',
           userData: {
+            avatar: avatarFile,
             mainName: 'John Doe',
             middleName: null,
             extraNames: [

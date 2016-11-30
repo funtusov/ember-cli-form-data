@@ -3,7 +3,8 @@
     "document",
     "window",
     "-Promise",
-    "FormData"
+    "FormData",
+    "File"
   ],
   "browser": true,
   "boss": true,
