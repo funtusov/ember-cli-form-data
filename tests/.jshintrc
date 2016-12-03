@@ -22,7 +22,8 @@
     "currentURL",
     "currentPath",
     "currentRouteName",
-    "FormData"
+    "FormData",
+    "File"
   ],
   "node": false,
   "browser": false,
