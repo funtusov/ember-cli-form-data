@@ -87,6 +87,47 @@ test('Handle nested objects', function(assert) {
   assert.deepEqual(hash.data, testFormData);
 });
 
+test('Handle multiple root objects', function(assert) {
+  var testFormData = new window.FormData();
+  var avatarFile = new File([''], 'avatar.jpg');
+
+  testFormData.append('post[id]', 1);
+  testFormData.append('post[title]', 'Rails is Omakase');
+  testFormData.append('meta[author][email]', 'john.doe@doeness');
+  testFormData.append('meta[author][userData][avatar]', avatarFile);
+  testFormData.append('meta[author][userData][mainName]', 'John Doe');
+  testFormData.append('meta[author][userData][middleName]', '');
+  testFormData.append('meta[author][userData][extraNames][]', 'Johnnie Doe');
+  testFormData.append('meta[author][userData][extraNames][]', 'Johnny Doe');
+
+  var options = {
+    data: {
+      post: {
+        id: 1,
+        title: 'Rails is Omakase'
+      },
+      meta: {
+        author: {
+          email: 'john.doe@doeness',
+          userData: {
+            avatar: avatarFile,
+            mainName: 'John Doe',
+            middleName: null,
+            extraNames: [
+              'Johnnie Doe',
+              'Johnny Doe',
+            ],
+          },
+        },
+      }
+    }
+  };
+
+  var hash = adapter.ajaxOptions('/', 'POST', options);
+
+  assert.deepEqual(hash.data, testFormData);
+});
+
 test("Don't modify the hash for requests outside formDataTypes", function(assert) {
   var options = {
     data: {
