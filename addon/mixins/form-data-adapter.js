@@ -25,13 +25,17 @@ export default Ember.Mixin.create({
 
   _getFormData: function(data) {
     var formData = new FormData();
-    var root = Object.keys(data)[0];
-
-    Object.keys(data[root]).forEach(function(key) {
-      var baseFormKey = this.get('disableRoot') ? key : `${root}[${key}]`;
-
-      this._appendValue(data[root][key], baseFormKey, formData);
-    }, this);
+    if (this.get('disableRoot')) {
+      var root = Object.keys(data)[0];
+      Object.keys(data[root]).forEach(function(key) {
+        this._appendValue(data[root][key], key, formData);
+      }, this);
+    } else {
+      // Handle >1 root key:
+      Object.keys(data).forEach(function(root) {
+        this._appendValue(data[root], root, formData);
+      }, this);
+    }
 
     return formData;
   },
