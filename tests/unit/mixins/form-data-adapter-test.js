@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Object from '@ember/object';
 import { module, test } from 'qunit';
 
 import FormDataAdapterMixin from 'ember-cli-form-data/mixins/form-data-adapter';
@@ -7,7 +7,7 @@ var adapter;
 
 module('FormDataAdapterMixin', {
   beforeEach() {
-    adapter = Ember.Object.extend({
+    adapter = Object.extend({
       ajaxOptions: function(url, type, options) {
         return options;
       }
