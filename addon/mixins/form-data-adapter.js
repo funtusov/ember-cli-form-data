@@ -1,6 +1,7 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
+import { isArray } from '@ember/array';
 
-export default Ember.Mixin.create({
+export default Mixin.create({
   // Overwrite to change the request types on which Form Data is sent
   formDataTypes: ['POST', 'PUT', 'PATCH'],
 
@@ -41,7 +42,7 @@ export default Ember.Mixin.create({
   },
 
   _appendValue(value, formKey, formData) {
-    if (Ember.isArray(value)) {
+    if (isArray(value)) {
       value.forEach(function(item) {
         this._appendValue(item, `${formKey}[]`, formData);
       }, this);
