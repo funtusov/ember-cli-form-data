@@ -1,15 +1,12 @@
-import {
-  moduleFor,
-  test
-} from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleFor('transform:file', 'FileTransform', {
-  // Specify the other units that are required for this test.
-  // needs: ['serializer:foo']
-});
+module('FileTransform', function(hooks) {
+  setupTest(hooks);
 
-// Replace this with your real tests.
-test('it exists', function(assert) {
-  var transform = this.subject();
-  assert.ok(transform);
+  // Replace this with your real tests.
+  test('it exists', function(assert) {
+    var transform = this.owner.lookup('transform:file');
+    assert.ok(transform);
+  });
 });
