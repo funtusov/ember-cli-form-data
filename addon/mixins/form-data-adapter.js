@@ -18,6 +18,9 @@ export default Mixin.create({
     if (typeof FormData !== 'undefined' && data && this.formDataTypes.indexOf(type) >= 0) {
       hash.processData = false;
       hash.contentType = false;
+      if (typeof hash.headers !== 'undefined') {
+        delete hash.headers['content-type'];
+      }
       hash.data = this._getFormData(data);
     }
 
