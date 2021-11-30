@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-form-data",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Ember-CLI addon that adds FormData file upload to the RESTAdapter",
   "keywords": [
     "ember-addon",
